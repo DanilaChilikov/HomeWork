@@ -22,8 +22,8 @@ public class DataProvider {
 
     public static Stream<Arguments> providerCheckingLaptops() {
         return Stream.of(
-                Arguments.of("Электроника","Ноутбуки","10000",
-                        "30000",  "Lenovo", "HP", "Lenovo", "HP", 1 , 1)
+                Arguments.of("Электроника", "Ноутбуки", "10000",
+                        "30000",  "Lenovo", "HP", 1)
         );
     }
 

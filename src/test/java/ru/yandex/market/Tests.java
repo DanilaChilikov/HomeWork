@@ -33,8 +33,7 @@ public class Tests extends BaseTest {
     @ParameterizedTest(name="{displayName}: {arguments}")
     @MethodSource("helpers.DataProvider#providerCheckingLaptops")
     public void yandexMarketTestWithStepsAll(String categories, String item, String min, String max,
-                                             String firstBrand, String secondBrand,String firstName,
-                                             String secondName, int firstIndex, int secondIndex){
+                                             String firstBrand, String secondBrand, int index){
 
         /**
          * 1. Открываем сайт Яндекс Маркет и проверяем, что заголовок соответствует ожиданиям.
@@ -89,19 +88,19 @@ public class Tests extends BaseTest {
          * 9. Проверяем, что все отображенные ноутбуки соответствуют фильтру по брендам.
          */
 
-        filterItems(firstName, secondName);
+        filterItems(firstBrand, secondBrand);
 
         /**
          * 10. Запоминаем название первого ноутбука в списке.
          */
 
-        findItem(firstIndex);
+        findItem(index);
 
         /**
          * 11. Выполняем поиск по запомненному названию ноутбука.
          */
 
-        searchItem(firstIndex);
+        searchItem(index);
 
         /**
          * 12. Нажимаем кнопку "Найти".
@@ -113,7 +112,7 @@ public class Tests extends BaseTest {
          * 13. Проверяем, что в результатах поиска присутствует искомый ноутбук.
          */
 
-        itemHasDesiredName(firstIndex, secondIndex);
+        itemHasDesiredName(index);
 
         /**
          * 14. Выполняем финальную проверку всех soft-assert'ов.

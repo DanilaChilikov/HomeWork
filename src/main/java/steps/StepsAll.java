@@ -132,7 +132,7 @@ public class StepsAll {
                                     String lowerCaseName = name.toLowerCase();
                                     return lowerCaseName .contains(firstBrand) || name.contains(secondBrand);
                                 }),
-                "В списке ноутбуков есть модели, не относящиеся к HP и Lenovo");
+                "В списке есть модели, не относящиеся к данным брендам");
     }
 
     /**
@@ -171,10 +171,10 @@ public class StepsAll {
      */
 
     @Step("Проверяем, что в результатах поиска, на первой странице, есть искомый товар")
-        public static void itemHasDesiredName(int firstIndex, int secondIndex) {
+        public static void itemHasDesiredName(int index) {
         YMAfterSearch yandexMarketAfterSearch = new YMAfterSearch(driver);
-        String itemInList = yandexMarketAfterSearch.findItemInList(firstIndex);
-        String findItem = yandexMarketAfterSearch.searchItems(secondIndex);
+        String itemInList = yandexMarketAfterSearch.findItemInList(index);
+        String findItem = yandexMarketAfterSearch.searchItems(index);
         Assertions.assertEquals(itemInList, findItem,
                 "Искомый товар не равен запомненному товару");
     }

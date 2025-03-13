@@ -6,9 +6,7 @@ import org.openqa.selenium.By;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 
-import java.time.Duration;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -88,7 +86,7 @@ public class YMAfterSearch {
      */
 
     public void checkingBySectionItem(){
-        Assertions.assertFalse(wait.findElements(By.xpath("//h1")).isEmpty(),
+        Assertions.assertFalse(!wait.findElement(By.xpath("//h1")).isDisplayed(),
                 "Переход в раздел Ноутбуки не произошел!");
     }
 
@@ -115,12 +113,13 @@ public class YMAfterSearch {
      */
 
     public void selectBrands(String firstBrand, String secondBrand) {
-        firstCheckbox = wait.findElement(By.xpath(String.format("//div[contains(@data-zone-name,'Filter')]" +
-                "//span[contains(text(), '%s')]", firstBrand)));
-        firstCheckbox.click();
-        secondCheckbox = wait.findElement(By.xpath(String.format("//div[contains(@data-zone-name,'Filter')]" +
-                "//span[contains(text(), '%s')]", secondBrand)));
-        secondCheckbox.click();
+            firstCheckbox = wait.findElement(By.xpath(String.format("//div[contains(@data-zone-name,'Filter')]" +
+                    "//span[contains(text(), '%s')]", firstBrand)));
+            firstCheckbox.click();
+            secondCheckbox = wait.findElement(By.xpath(String.format("//div[contains(@data-zone-name,'Filter')]" +
+                    "//span[contains(text(), '%s')]", secondBrand)));
+            secondCheckbox.click();
+
     }
 
     /**
@@ -130,10 +129,11 @@ public class YMAfterSearch {
 
     public void hasMoreThan12Elements() {
         itemList = wait.findElements(By.xpath(
-                "//div/div/div/div/article/div/div/div/div/div/div/div/a/span[contains(.,'Ноутбук')]"));
+                "//div/div/div/div/article/div/div/" +
+                        "div/div/div/div/div/a/span[contains(.,'Ноутбук')]"));
         Assertions.assertTrue(itemList.size() >= 12, "В списке Ноутбуков меньше 12");
         locator = By.xpath("//div[@data-baobab-name = 'next']");
-        while (exists(locator,wait)) {
+        while(exists(locator,wait)) {
             nextPage = wait.findElement(locator);
             nextPage.click();
         }
@@ -146,9 +146,10 @@ public class YMAfterSearch {
      */
 
     public List<String> getItemName() {
-        itemList = wait.findElements(By.xpath(
-                "//div/div/div/div/article/div/div/div/div/div/div/div/a/span[contains(.,'Ноутбук')]"));
-        return itemList.stream()
+        return wait.findElements(By.xpath(
+                "//div/div/div/div/article/div/div/div/" +
+                        "div/div/div/div/a/span[contains(.,'Ноутбук')]"))
+                .stream()
                 .map(WebElement::getText)
                 .collect(Collectors.toList());
     }

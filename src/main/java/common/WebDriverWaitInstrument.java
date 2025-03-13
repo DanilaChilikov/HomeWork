@@ -22,12 +22,16 @@ public class WebDriverWaitInstrument {
     }
 
     public WebElement findElement(By locator) {
-        wait.until(ExpectedConditions.presenceOfElementLocated(locator));
+        wait.until(ExpectedConditions.and(
+                        ExpectedConditions.presenceOfElementLocated(locator),
+                        ExpectedConditions.elementToBeClickable(locator),
+                        ExpectedConditions.visibilityOfElementLocated(locator)
+                ));
         return driver.findElement(locator);
     }
 
     public List<WebElement> findElements(By locator) {
-        wait.until(ExpectedConditions.presenceOfElementLocated(locator));
+        wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(locator));
         return driver.findElements(locator);
     }
 
