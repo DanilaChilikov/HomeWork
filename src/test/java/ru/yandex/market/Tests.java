@@ -32,8 +32,14 @@ public class Tests extends BaseTest {
     @DisplayName("Проверка ноутбуков - всё в степах")
     @ParameterizedTest(name="{displayName}: {arguments}")
     @MethodSource("helpers.DataProvider#providerCheckingLaptops")
-    public void yandexMarketTestWithStepsAll(String categories, String item, String min, String max,
-                                             String firstBrand, String secondBrand, int index){
+    public void yandexMarketTestWithStepsAll(String categories,
+                                             String itemTitle,
+                                             String min,
+                                             String max,
+                                             String firstBrand,
+                                             String secondBrand,
+                                             String item,
+                                             int index){
 
         /**
          * 1. Открываем сайт Яндекс Маркет и проверяем, что заголовок соответствует ожиданиям.
@@ -58,7 +64,7 @@ public class Tests extends BaseTest {
          * 4. Переход в категорию "Имя раздела".
          */
 
-        searchInCategory(item);
+        searchInCategory(itemTitle);
 
         /**
          * 5. Проверяем, что мы находимся в разделе "Ноутбуки".
@@ -82,25 +88,25 @@ public class Tests extends BaseTest {
          * 8. Проверяем, что на первой странице отображается более 12 товаров.
          */
 
-        hasMoreThanItem();
+        hasMoreThanItem(item);
 
         /**
          * 9. Проверяем, что все отображенные ноутбуки соответствуют фильтру по брендам.
          */
 
-        filterItems(firstBrand, secondBrand);
+        filterItems(firstBrand, secondBrand, item);
 
         /**
          * 10. Запоминаем название первого ноутбука в списке.
          */
 
-        findItem(index);
+        findItem(item, index);
 
         /**
          * 11. Выполняем поиск по запомненному названию ноутбука.
          */
 
-        searchItem(index);
+        searchItem(item, index);
 
         /**
          * 12. Нажимаем кнопку "Найти".
@@ -112,7 +118,7 @@ public class Tests extends BaseTest {
          * 13. Проверяем, что в результатах поиска присутствует искомый ноутбук.
          */
 
-        itemHasDesiredName(index);
+        itemHasDesiredName(index, item);
 
         /**
          * 14. Выполняем финальную проверку всех soft-assert'ов.

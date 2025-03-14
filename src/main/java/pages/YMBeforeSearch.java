@@ -8,9 +8,6 @@ import org.openqa.selenium.interactions.Actions;
 import static helpers.Properties.testsProperties;
 
 /**
- * Класс YMBeforeSearch реализует шаги для взаимодействия с главным меню
- * Яндекс Маркета перед выполнением поиска.
- * Используется паттерн Page Object.
  *
  * @author [Данила]
  * @version 1.0
@@ -18,41 +15,29 @@ import static helpers.Properties.testsProperties;
 
 public class YMBeforeSearch {
 
-    /** Веб-драйвер для управления браузером */
 
     private final WebDriver driver;
 
-    /** Кнопка "Каталог" */
 
     private WebElement buttonCatalog;
 
-    /** Раздел "Электроника" */
 
     private WebElement categoryElement;
 
-    /** Раздел "Ноутбуки" */
 
     private WebElement itemCategory;
 
-    /** Ожидание появления элементов на странице */
 
     private final WebDriverWaitInstrument wait;
 
-    /**
-     * Конструктор класса YMBeforeSearch.
-     *
-     * @param driver экземпляр {@link WebDriver}, используемый для взаимодействия с браузером
-     */
+
 
     public YMBeforeSearch(WebDriver driver) {
         this.driver = driver;
         this.wait = new WebDriverWaitInstrument(driver, testsProperties.defaultTimeout());
     }
 
-    /**
-     * Метод для нажатия на кнопку "Каталог".
-     * Ожидает появления элемента перед взаимодействием.
-     */
+
 
     public void clickCatalog() {
         buttonCatalog = wait.findElement(By.xpath(
@@ -60,10 +45,7 @@ public class YMBeforeSearch {
         buttonCatalog.click();
     }
 
-    /**
-     * Метод для наведения курсора на категорию "Электроника" в каталоге.
-     * Использует класс {@link Actions} для эмуляции наведения курсора.
-     */
+
 
     public void hoverOverCategory(String categoryValue) {
         categoryElement = wait.findElement(By.xpath(
@@ -73,12 +55,8 @@ public class YMBeforeSearch {
         actions.moveToElement(categoryElement).build().perform();
     }
 
-    /**
-     * Метод для клика по категории "Ноутбуки" в разделе "Электроника".
-     * Ожидает появления элемента перед взаимодействием.
-     */
 
-    public void clickItem(String item) {
+    public void clickCategoryItem(String item) {
         itemCategory = wait.findElement(By.xpath(
                 String.format( "//ul[contains(@data-autotest-id, 'subItems')]/li/div/a[contains(text(), '%s')]",
                         item)));

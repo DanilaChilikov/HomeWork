@@ -25,7 +25,9 @@ public class StepsAll {
 
     private static WebDriver driver;
 
-    /** Ожидание появления элементов на странице */
+    /**
+     *Ожидание появления элементов на странице
+     */
 
     private static WebDriverWait wait;
 
@@ -70,9 +72,9 @@ public class StepsAll {
      */
 
     @Step("Ищем в текущей категории кнопку: {item}")
-    public static void searchInCategory(String item){
+    public static void searchInCategory(String itemTitle){
         YMBeforeSearch yandexMarketBeforeSearch = new YMBeforeSearch(driver);
-        yandexMarketBeforeSearch.clickItem(item);
+        yandexMarketBeforeSearch.clickCategoryItem(itemTitle);
     }
 
     /**
@@ -113,9 +115,9 @@ public class StepsAll {
      */
 
     @Step("Проверяем больше ли 12 элементов в списке")
-    public static void hasMoreThanItem(){
+    public static void hasMoreThanItem(String item){
         YMAfterSearch yandexMarketAfterSearch = new YMAfterSearch(driver);
-        yandexMarketAfterSearch.hasMoreThan12Elements();
+        yandexMarketAfterSearch.hasMoreThan12Elements(item);
     }
 
     /**
@@ -123,9 +125,9 @@ public class StepsAll {
      */
 
     @Step("Проверяем все ли брэнды производителя соответствуют фильтру")
-    public static void filterItems(String firstBrand, String secondBrand){
+    public static void filterItems(String firstBrand, String secondBrand, String item){
         YMAfterSearch yandexMarketAfterSearch = new YMAfterSearch(driver);
-        List<String> itemName = yandexMarketAfterSearch.getItemName();
+        List<String> itemName = yandexMarketAfterSearch.getItemName(item);
         Assertions.softAssertTrue(itemName.stream()
                         .allMatch(name ->
                                 {
@@ -140,10 +142,9 @@ public class StepsAll {
      */
 
     @Step("Запоминаем первое наименование товара")
-    public static void findItem(int index) {
+    public static void findItem(String item, int index) {
         YMAfterSearch yandexMarketAfterSearch = new YMAfterSearch(driver);
-        yandexMarketAfterSearch.findItemInList(index);
-
+        yandexMarketAfterSearch.findItemInList(item, index);
     }
 
     /**
@@ -151,9 +152,9 @@ public class StepsAll {
      */
 
     @Step("В поисковую строку ввести запомненный товар")
-    public static void searchItem(int index) {
+    public static void searchItem(String item, int index) {
         YMAfterSearch yandexMarketAfterSearch = new YMAfterSearch(driver);
-        yandexMarketAfterSearch.enterTheRememberedItem(index);
+        yandexMarketAfterSearch.enterTheRememberedItem(item, index);
     }
 
     /**
@@ -171,10 +172,10 @@ public class StepsAll {
      */
 
     @Step("Проверяем, что в результатах поиска, на первой странице, есть искомый товар")
-        public static void itemHasDesiredName(int index) {
+        public static void itemHasDesiredName(int index, String item) {
         YMAfterSearch yandexMarketAfterSearch = new YMAfterSearch(driver);
-        String itemInList = yandexMarketAfterSearch.findItemInList(index);
-        String findItem = yandexMarketAfterSearch.searchItems(index);
+        String itemInList = yandexMarketAfterSearch.findItemInList(item, index);
+        String findItem = yandexMarketAfterSearch.searchItem(index,item);
         Assertions.assertEquals(itemInList, findItem,
                 "Искомый товар не равен запомненному товару");
     }

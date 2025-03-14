@@ -26,7 +26,7 @@ public class WebDriverWaitInstrument {
                         ExpectedConditions.presenceOfElementLocated(locator),
                         ExpectedConditions.elementToBeClickable(locator),
                         ExpectedConditions.visibilityOfElementLocated(locator)
-                ));
+        ));
         return driver.findElement(locator);
     }
 
