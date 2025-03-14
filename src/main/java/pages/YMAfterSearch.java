@@ -7,6 +7,7 @@ import org.openqa.selenium.*;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 
 import static helpers.Properties.testsProperties;
@@ -89,7 +90,7 @@ public class YMAfterSearch {
                 .findElements(By.xpath(String.format(searchFieldLocator, categoryName)))
                 .stream()
                 .map(WebElement::getText)
-                .toList();
+                .collect(Collectors.toList());
     }
 
     public void saveBrandNameToList(String item, int index) {
@@ -101,7 +102,7 @@ public class YMAfterSearch {
     public void enterTheRememberedItem() {
         searchField = wait.findElement(By.xpath("//input[@id=\"header-search\"]"));
         searchField.click();
-        searchField.sendKeys(brandNames.stream().toList().get(0));
+        searchField.sendKeys(brandNames.stream().collect(Collectors.toList()).get(0));
         brandNames.clear();
     }
 
@@ -118,7 +119,7 @@ public class YMAfterSearch {
         List<String> items = searchItems
                 .stream()
                 .map(WebElement::getText)
-                .toList();
+                .collect(Collectors.toList());
         return items.get(index);
     }
 }
