@@ -8,6 +8,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import pages.YMAfterSearch;
 import pages.YMBeforeSearch;
 
+import java.util.List;
+
 import static helpers.Properties.testsProperties;
 
 /**
@@ -125,8 +127,8 @@ public class StepsAll {
 
     @Step("Проверяем все ли брэнды производителя соответствуют фильтру")
     public static void filterItems(String firstBrand, String secondBrand, String item){
-        var yandexMarketAfterSearch = new YMAfterSearch(driver);
-        var itemName = yandexMarketAfterSearch.getBrandNames(item);
+        YMAfterSearch yandexMarketAfterSearch = new YMAfterSearch(driver);
+        List<String> itemName = yandexMarketAfterSearch.getBrandNames(item);
         Assertions.softAssertTrue(itemName.stream()
                         .allMatch(name ->
                                 {
