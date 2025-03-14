@@ -32,7 +32,7 @@ public class YMAfterSearch {
     private List<WebElement> searchItems;
     private List<WebElement> itemList;
 
-    private Set<String> brandNames = new HashSet<>();
+    private static Set<String> brandNames = new HashSet<>();
 
 
     private final static String searchFieldLocator = "//div/div/div/div/article/div/div/div/div/div/div/div/a/span[contains(.,'%s')]";
