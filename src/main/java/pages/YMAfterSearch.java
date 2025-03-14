@@ -4,8 +4,9 @@ import common.WebDriverWaitInstrument;
 import helpers.Assertions;
 import org.openqa.selenium.*;
 
+import java.util.HashSet;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Set;
 
 
 import static helpers.Properties.testsProperties;
@@ -18,67 +19,33 @@ import static helpers.Properties.testsProperties;
 
 public class YMAfterSearch {
 
-
-    private final WebDriver driver;
-
-
     private final WebDriverWaitInstrument wait;
 
-
-
     private WebElement minPrice;
-
-
-
     private WebElement maxPrice;
-
-
-
     private WebElement firstCheckbox;
-
-
-
     private WebElement secondCheckbox;
-
-
-
-    private List<WebElement> itemList;
-
-
-
-    private List<String>  itemNames;
-
-
-
     private WebElement searchField;
-
-
-
     private WebElement searchButton;
 
-
-
-
     private List<WebElement> searchItems;
+    private List<WebElement> itemList;
+
+    private Set<String> brandNames = new HashSet<>();
+
+
+    private final static String searchFieldLocator = "//div/div/div/div/article/div/div/div/div/div/div/div/a/span[contains(.,'%s')]";
 
     By locator = null;
 
-
-
-
     public YMAfterSearch(WebDriver driver) {
-        this.driver = driver;
         this.wait = new WebDriverWaitInstrument(driver, testsProperties.defaultTimeout());
     }
-
-
 
     public void checkingBySectionItem(){
         Assertions.assertFalse(!wait.findElement(By.xpath("//h1")).isDisplayed(),
                 "Переход в раздел не произошел!");
     }
-
-
 
     public void setPriceRange(String min, String max) {
         minPrice = wait.findElement(By.xpath(
@@ -102,8 +69,6 @@ public class YMAfterSearch {
 
     }
 
-
-
     public void hasMoreThan12Elements(String item) {
         itemList = wait.findElements(By.xpath(String.format(
                 "//div/div/div/div/article/div/div/div/" +
@@ -119,46 +84,41 @@ public class YMAfterSearch {
         }
     }
 
-
-
-    public void getItemName(String item) {
-        itemNames = wait.findElements(By.xpath(String.format(
-        "//div/div/div/div/article/div/div/div/div/div/div/div/a/span[contains(.,'%s')]", item)))
-        .stream()
-        .map(WebElement::getText)
-        .collect(Collectors.toList());
+    public List<String> getBrandNames(String categoryName) {
+        return wait
+                .findElements(By.xpath(String.format(searchFieldLocator, categoryName)))
+                .stream()
+                .map(WebElement::getText)
+                .toList();
     }
 
-
-
-    public String findItemInList(String item, int index) {
-        return itemNames.get(index);
+    public void saveBrandNameToList(String item, int index) {
+        brandNames.add(
+                getBrandNames(item).get(index)
+        );
     }
 
-
-    public void enterTheRememberedItem(String item, int index) {
+    public void enterTheRememberedItem() {
         searchField = wait.findElement(By.xpath("//input[@id=\"header-search\"]"));
         searchField.click();
-        String nameItem = findItemInList(item, index);
-        searchField.sendKeys(nameItem);
+        searchField.sendKeys(brandNames.stream().toList().get(0));
+        brandNames.clear();
     }
-
-
 
     public void clickButtonFind() {
-        searchButton = wait.findElement(By.xpath("//form/div/button"));
-        searchButton.click();
+        wait
+                .findElement(By.xpath("//form/div/button"))
+                .click();
     }
-
-
 
     public String searchItem(int index, String item){
         searchItems = wait.findElements(By.xpath(String.format(
                 "//div/div/div/div/article/div/div/div/" +
                         "div/div/div/div/a/span[contains(.,'%s')]", item)));
-        List<String> items = searchItems.stream()
+        List<String> items = searchItems
+                .stream()
                 .map(WebElement::getText)
-                .collect(Collectors.toList());
+                .toList();
         return items.get(index);
     }
 }

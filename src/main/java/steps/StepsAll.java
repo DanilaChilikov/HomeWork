@@ -7,7 +7,6 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pages.YMAfterSearch;
 import pages.YMBeforeSearch;
-import java.util.List;
 
 import static helpers.Properties.testsProperties;
 
@@ -126,8 +125,8 @@ public class StepsAll {
 
     @Step("Проверяем все ли брэнды производителя соответствуют фильтру")
     public static void filterItems(String firstBrand, String secondBrand, String item){
-        YMAfterSearch yandexMarketAfterSearch = new YMAfterSearch(driver);
-        List<String> itemName = yandexMarketAfterSearch.getItemName(item);
+        var yandexMarketAfterSearch = new YMAfterSearch(driver);
+        var itemName = yandexMarketAfterSearch.getBrandNames(item);
         Assertions.softAssertTrue(itemName.stream()
                         .allMatch(name ->
                                 {
@@ -144,7 +143,7 @@ public class StepsAll {
     @Step("Запоминаем первое наименование товара")
     public static void findItem(String item, int index) {
         YMAfterSearch yandexMarketAfterSearch = new YMAfterSearch(driver);
-        yandexMarketAfterSearch.findItemInList(item, index);
+        yandexMarketAfterSearch.saveBrandNameToList(item, index);
     }
 
     /**
@@ -152,9 +151,9 @@ public class StepsAll {
      */
 
     @Step("В поисковую строку ввести запомненный товар")
-    public static void searchItem(String item, int index) {
+    public static void searchItem() {
         YMAfterSearch yandexMarketAfterSearch = new YMAfterSearch(driver);
-        yandexMarketAfterSearch.enterTheRememberedItem(item, index);
+        yandexMarketAfterSearch.enterTheRememberedItem();
     }
 
     /**
@@ -174,7 +173,7 @@ public class StepsAll {
     @Step("Проверяем, что в результатах поиска, на первой странице, есть искомый товар")
         public static void itemHasDesiredName(int index, String item) {
         YMAfterSearch yandexMarketAfterSearch = new YMAfterSearch(driver);
-        String itemInList = yandexMarketAfterSearch.findItemInList(item, index);
+        String itemInList = yandexMarketAfterSearch.getBrandNames(item).get(index);
         String findItem = yandexMarketAfterSearch.searchItem(index,item);
         Assertions.assertEquals(itemInList, findItem,
                 "Искомый товар не равен запомненному товару");

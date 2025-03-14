@@ -106,7 +106,7 @@ public class Tests extends BaseTest {
          * 11. Выполняем поиск по запомненному названию ноутбука.
          */
 
-        searchItem(item, index);
+        searchItem();
 
         /**
          * 12. Нажимаем кнопку "Найти".
